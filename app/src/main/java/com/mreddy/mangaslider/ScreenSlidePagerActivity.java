@@ -10,12 +10,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
 public class ScreenSlidePagerActivity extends FragmentActivity {
-    /**
-     * The number of pages (wizard steps) to show in this demo.
-     */
-    private static final int NUM_PAGES = 3;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -41,6 +38,31 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new MangaImageAdapter(this,images);
+        final int totalPages = images.length;
+        mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            private Toast pageNumberToast = null;
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
+                if(pageNumberToast!=null){
+                    pageNumberToast.cancel();
+                }
+                int currentPage = i+1;
+                pageNumberToast = Toast.makeText(ScreenSlidePagerActivity.this,"Page "+currentPage+ " of "+totalPages,Toast.LENGTH_SHORT);
+                pageNumberToast.show();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
         mPager.setAdapter(mPagerAdapter);
     }
 
